@@ -1,0 +1,53 @@
+/* Copy and paste any or all of these css entries into your custom.css file inside your
+ * css folder. The functions are annotated to make things as easy as possible for you.
+ * Use any colors you want! For example - "http://htmlcolorcodes.com/color-picker/"
+ * Pick your color, copy and paste the HEX number. Example - #62FF00 = bright green.
+ */
+
+.MMM-Census .pbag {
+  color: red;                    /* Color the information text. Default is white. */
+  text-align: left;             /* Align the information text. (left, center, right) */
+  /*  display: none; */         /* Uncomment if you don't want information text */
+}
+ 
+.MMM-Census .age {
+  color: #62FF00;             /* Color the information text. Default is white. */
+  text-align: left;           /* Align the information text. (left, center, right) */
+  /*  display: none; */         /* Uncomment if you don't want information text */
+}
+
+.MMM-Census .females {
+  color: yellow;             /* Color the females. Default is white. */
+  text-align: left;           /* Align the females. (left, center, right) */
+/*  display: none; */         /* Uncomment if you don't want females */
+}
+
+.MMM-Census .males {
+  color: yellow;             /* Color the males. Default is white. */
+  text-align: left;           /* Align the males. (left, center, right) */
+/*  display: none; */         /* Uncomment if you don't want males */
+}
+
+.MMM-Census .country {
+  color: yellow;             /* Color the country. Default is white. */
+  text-align: left;           /* Align the country. (left, center, right) */
+/*  display: none; */         /* Uncomment if you don't want country */
+}
+
+.MMM-Census .agtotal {
+  color: yellow;             /* Color the agtotal. Default is white. */
+  text-align: left;           /* Align the agtotal. (left, center, right) */
+/*  display: none; */         /* Uncomment if you don't want agtotal */
+}
+
+.MMM-Census .date {
+  color: yellow;             /* Color the date. Default is white. */
+  text-align: left;           /* Align the date. (left, center, right) */
+/*  display: none; */         /* Uncomment if you don't want date */
+}
+
+.MMM-Census .population {
+  color: yellow;             /* Color the population. Default is white. */
+  text-align: left;           /* Align the population. (left, center, right) */
+/*  display: none; */         /* Uncomment if you don't want population */
+}
