@@ -38,7 +38,7 @@ module.exports = NodeHelper.create({
     	        }, (error, response, body) => {
             if (!error && response.statusCode === 200) {
                         var popresult = JSON.parse(body).total_population;
-						console.log(response.statusCode + popresult);
+					//	console.log(response.statusCode + popresult);
                         this.sendSocketNotification("POP_RESULTS", popresult);
             }
        });

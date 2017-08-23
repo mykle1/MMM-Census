@@ -2,20 +2,21 @@
  * Module: MMM-Census
  *
  * By Mykle1
- *
+ * 
  */
 Module.register("MMM-Census", {
 
     // Module config defaults.
     defaults: {
-        useHeader: true,             // False if you don't want a header      
-        header: "World Population",       // Any text you want. useHeader must be true
-        maxWidth: "275px",
-        animationSpeed: 3000,        // fade speed
+		country: "World",                           // See README file country list
+        useHeader: true,                            // false if you don't want a header      
+        header: "World Population & Demographic",   // Any text you want. useHeader must be true
+        maxWidth: "300px",
+        animationSpeed: 3000,                       // fade speed
         initialLoadDelay: 3250,
         retryDelay: 2500,
-        rotateInterval: 20 * 1000,   // 5 minutes
-        updateInterval: 30 * 60 * 1000,
+        rotateInterval: 5 * 60 * 1000,              // 5 minutes
+        updateInterval: 60 * 60 * 1000,
 
     },
 
@@ -30,14 +31,16 @@ Module.register("MMM-Census", {
         requiresVersion: "2.1.0",
 
         //  Set locale.
-        this.url = "http://api.population.io/1.0/population/2017/World/?format=json";
-        this.Census = [];
+        this.url = "http://api.population.io/1.0/population/2017/" + this.config.country + "/?format=json";
+        this.Census = {};
         this.activeItem = 0;
         this.rotateInterval = null;
         this.scheduleUpdate();
     },
 
     getDom: function() {
+		
+		var country = this.config.country;
 
         var wrapper = document.createElement("div");
         wrapper.className = "wrapper";
@@ -58,89 +61,116 @@ Module.register("MMM-Census", {
 		
 		
 	//	Rotating my data
-		var Census = this.Census;
-		var CensusKeys = Object.keys(this.Census);
+		    var Census = this.Census;
+		    var CensusKeys = Object.keys(this.Census);
         if (CensusKeys.length > 0) {
             if (this.activeItem >= CensusKeys.length) {
                 this.activeItem = 0;
             }
             var Census = this.Census[CensusKeys[this.activeItem]];
-		
-	//	console.log(Census); // for checking
+			var Pop = this.Pop; 
+	        // console.log(Pop); for checking
 
             var top = document.createElement("div");
             top.classList.add("list-row");
 			
 			
-		// Population by age group = pbag
-		var pbag = document.createElement("div");
-        pbag.classList.add("small", "bright", "pbag");
-        pbag.innerHTML = "Population by age group";
-        wrapper.appendChild(pbag);
-		
-		
-		// age
+		    // age
 		    var age = document.createElement("div");
             age.classList.add("small", "bright", "age");
 		if (Census.age == 0){
-			age.innerHTML = "Less than 1 year old";
+			age.innerHTML = this.config.country + " < 1 year old";
 			wrapper.appendChild(age);
 		} else if (Census.age == 1) {
-			age.innerHTML = Census.age + " year old";
+			age.innerHTML = this.config.country + " ~ " + Census.age + " year old";
 			wrapper.appendChild(age);
 		} else {
-            age.innerHTML = Census.age + " year old";
+            age.innerHTML = this.config.country + " ~ " + Census.age + " years old";
             wrapper.appendChild(age);
 		}
 		
 		
-		// females
-		var females = document.createElement("div");
-        females.classList.add("small", "bright", "females");
-        females.innerHTML = (Math.round(Census.females) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,') + " females";
-        wrapper.appendChild(females);
-		
-		
-		// males
-		var males = document.createElement("div");
-        males.classList.add("small", "bright", "males");
-        males.innerHTML = (Math.round(Census.males) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,') + " males";
-        wrapper.appendChild(males);
-		
-		
-		// country and year
-		var country = document.createElement("div");
-        country.classList.add("small", "bright", "country");
-        country.innerHTML = "In the " + Census.country + " in " + Census.year ;
-        wrapper.appendChild(country);
-		
-		
-		// age group total = agtotal
-		var agtotal = document.createElement("div");
-        agtotal.classList.add("small", "bright", "agtotal");
-		//  (Math.round(Lunartic.DFS) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,')
-        agtotal.innerHTML = "Age total = " + (Math.round(Census.total) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,');
-        wrapper.appendChild(agtotal);
-		
-		
-		// Entire population today and tomorrow date = date
-		var date = document.createElement("div");
-        date.classList.add("small", "bright", "date");
-		//  (Math.round(Lunartic.DFS) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,')
-        date.innerHTML = "Full world total on " + Census.date;
-        wrapper.appendChild(date);
-		
-		
-		// Entire population today and tomorrow
-		var population = document.createElement("div");
-        population.classList.add("small", "bright", "population");
-		//  (Math.round(Lunartic.DFS) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,')
-        population.innerHTML = (Math.round(Census.population) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,');
-        wrapper.appendChild(population);
-		
-		
+			// spacer
+			var spacer = document.createElement("div");
+			spacer.classList.add("small", "bright", "spacer");
+			spacer.innerHTML = " ~~~ ";
+			wrapper.appendChild(spacer);
+			
 
-		}
+			// females
+			var females = document.createElement("div");
+			females.classList.add("small", "bright", "females");
+			females.innerHTML = (Math.round(Census.females) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,') + " females";
+			wrapper.appendChild(females);
+			
+			
+			// males
+			var males = document.createElement("div");
+			males.classList.add("small", "bright", "males");
+			males.innerHTML = (Math.round(Census.males) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,') + " males";
+			wrapper.appendChild(males);
+			
+			
+			// age group total = agtotal
+			var agtotal = document.createElement("div");
+			agtotal.classList.add("small", "bright", "agtotal");
+			agtotal.innerHTML = "Age total = " + (Math.round(Census.total) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+			wrapper.appendChild(agtotal);
+			
+			
+			// spacer
+			var spacer = document.createElement("div");
+			spacer.classList.add("small", "bright", "spacer");
+			spacer.innerHTML = " ~~~ ";
+			wrapper.appendChild(spacer);
+			
+			} // <-- end of rotation /////////////////////////
+			
+			
+			// Not within the rotation ///////////////////////
+			
+			// World population today heading
+			var WPTdate = document.createElement("div");
+			WPTdate.classList.add("small", "bright", "WPTdate");
+		//	console.log(this.Pop); // for checking
+			WPTdate.innerHTML = "World Population Today"; // + Pop[0].date;
+			wrapper.appendChild(WPTdate);
+			
+			
+			// Entire population today
+			var popToday = document.createElement("div");
+			popToday.classList.add("small", "bright", "popToday");
+			popToday.innerHTML = (Math.round(Pop[0].population) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+			wrapper.appendChild(popToday);
+			
+			
+			// Entire population today and tomorrow date = date
+			var date = document.createElement("div");
+			date.classList.add("small", "bright", "date");
+		//	console.log(this.Pop); // for checking
+			date.innerHTML = "World Population Tomorrow"; // + Pop[0].date;
+			wrapper.appendChild(date);
+			
+			
+			// Entire population tomorrow
+			var popTomorrow = document.createElement("div");
+			popTomorrow.classList.add("small", "bright", "popTomorrow");
+			popTomorrow.innerHTML = (Math.round(Pop[1].population) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+			wrapper.appendChild(popTomorrow);
+			
+			// spacer
+			var spacer = document.createElement("div");
+			spacer.classList.add("small", "bright", "spacer");
+			spacer.innerHTML = " ~~~ ";
+			wrapper.appendChild(spacer);
+			
+			
+			// Population growth
+			var growth = document.createElement("div");
+			growth.classList.add("small", "bright", "growth");
+			growth.innerHTML = "Population growth = " + (Math.round(Pop[1].population - Pop[0].population) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+			wrapper.appendChild(growth);
+
         return wrapper;
     },
 
@@ -152,7 +182,7 @@ Module.register("MMM-Census", {
     },
 	
 	processPop: function(data) {
-        this.Pop = data; // data.results
+        this.Pop = data;
     },
 
     scheduleCarousel: function() {
