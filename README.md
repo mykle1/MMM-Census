@@ -36,13 +36,13 @@
         module: 'MMM-Census',
         position: 'top_left',              // Best in left, right or center regions
         config: {
-		    country: "World",              // See country list, bottom of README file
-			popYear: "2017",               // 1950 - 2100
-            useHeader: true,
-			header: "World Population & Demographic",
-			maxWidth: "300px",
-			animationSpeed: 3000,
-			rotateInterval: 1 * 60 * 1000,
+		country: "World",              // See country list, bottom of README file
+		popYear: "2017",               // 1950 - 2100
+		useHeader: true,
+		header: "World Population & Demographic",
+		maxWidth: "300px",
+		animationSpeed: 3000,
+		rotateInterval: 1 * 60 * 1000,
         }
     },
 
