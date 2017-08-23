@@ -14,6 +14,10 @@
 
 * Choose an individual country instead of the world. See county list at bottom.
 
+## OR OR
+
+* Choose a year from 1950 - 2100 for past and present data or future predictions.
+
 ## Example
 
 * Fully annotated css file so you can fully customize to your liking
@@ -32,12 +36,13 @@
         module: 'MMM-Census',
         position: 'top_left',              // Best in left, right or center regions
         config: {
-		country: "World",          // See country list, bottom of README file
-		useHeader: true,
-		header: "World Population & Demographic",
-		maxWidth: "300px",
-		animationSpeed: 3000,
-		rotateInterval: 1 * 60 * 1000,
+		    country: "World",              // See country list, bottom of README file
+			popYear: "2017",               // 1950 - 2100
+            useHeader: true,
+			header: "World Population & Demographic",
+			maxWidth: "300px",
+			animationSpeed: 3000,
+			rotateInterval: 1 * 60 * 1000,
         }
     },
 

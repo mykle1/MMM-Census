@@ -9,6 +9,7 @@ Module.register("MMM-Census", {
     // Module config defaults.
     defaults: {
 		country: "World",                           // See README file country list
+		popYear: "2017",                            // 1950 - 2100
         useHeader: true,                            // false if you don't want a header      
         header: "World Population & Demographic",   // Any text you want. useHeader must be true
         maxWidth: "300px",
@@ -23,15 +24,21 @@ Module.register("MMM-Census", {
     getStyles: function() {
         return ["MMM-Census.css"];
     },
+	
+	// Define required scripts.
+    getScripts: function() {
+        return ["moment.js"];
+	},
 
     start: function() {
         Log.info("Starting module: " + this.name);
 		this.sendSocketNotification("CONFIG", this.config);
 
         requiresVersion: "2.1.0",
+		
 
         //  Set locale.
-        this.url = "http://api.population.io/1.0/population/2017/" + this.config.country + "/?format=json";
+        this.url = "http://api.population.io/1.0/population/" + this.config.popYear + "/" + this.config.country + "/?format=json";
         this.Census = {};
         this.activeItem = 0;
         this.rotateInterval = null;
@@ -41,6 +48,7 @@ Module.register("MMM-Census", {
     getDom: function() {
 		
 		var country = this.config.country;
+		var popYear = this.config.popYear;
 
         var wrapper = document.createElement("div");
         wrapper.className = "wrapper";
@@ -79,13 +87,13 @@ Module.register("MMM-Census", {
 		    var age = document.createElement("div");
             age.classList.add("small", "bright", "age");
 		if (Census.age == 0){
-			age.innerHTML = this.config.country + " < 1 year old";
+			age.innerHTML = this.config.country + " in " + this.config.popYear + " &nbsp < 1 year old";
 			wrapper.appendChild(age);
 		} else if (Census.age == 1) {
-			age.innerHTML = this.config.country + " ~ " + Census.age + " year old";
+			age.innerHTML = this.config.country + " in " + this.config.popYear + " ~ " + Census.age + " year olds";
 			wrapper.appendChild(age);
 		} else {
-            age.innerHTML = this.config.country + " ~ " + Census.age + " years old";
+            age.innerHTML = this.config.country + " in " + this.config.popYear + " ~ " + Census.age + " year olds";
             wrapper.appendChild(age);
 		}
 		
