@@ -182,6 +182,18 @@ Module.register("MMM-Census", {
         return wrapper;
     },
 
+	
+/////  Add this function to the modules you want to control with voice //////
+
+    notificationReceived: function(notification, payload) {
+        if (notification === 'HIDE_CENSUS') {
+            this.hide(1000);
+        }  else if (notification === 'SHOW_CENSUS') {
+            this.show(1000);
+        }
+            
+    },
+	
 
     processCensus: function(data) {
         this.today = data.Today;
