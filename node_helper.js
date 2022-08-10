@@ -30,7 +30,7 @@ module.exports = NodeHelper.create({
     },
 	
 	
-	getPop: function(){
+	getPop: function() {
      	var self = this;
 	 	request({ 
     	    url: "http://api.population.io/1.0/GET%20/population/World/today-and-tomorrow/?format=json",
@@ -50,9 +50,9 @@ module.exports = NodeHelper.create({
     	if(notification === 'CONFIG'){
 			this.config = payload;
 		} else if (notification === 'GET_CENSUS') {
-                this.getCensus(payload);
-            } else if (notification === 'GET_POP') {
-                this.getPop(payload);
+			this.getCensus(payload);
+		} else if (notification === 'GET_POP') {
+			this.getPop(payload);
         }
     }
 });
