@@ -34,8 +34,7 @@ Module.register("MMM-Census", {
         Log.info("Starting module: " + this.name);
 		this.sendSocketNotification("CONFIG", this.config);
 
-        requiresVersion: "2.1.0",
-		
+        requiresVersion: "2.1.0";
 
         //  Set locale.
         this.url = "http://api.population.io/1.0/population/" + this.config.popYear + "/" + this.config.country + "/?format=json";
