@@ -16,33 +16,54 @@ module.exports = NodeHelper.create({
     },
 
     getCensus: function(url) {
-        request({
-            url: url,
-            method: 'GET'
-        }, (error, response, body) => {
-            if (!error && response.statusCode == 200) {
-                var result = JSON.parse(body);
-			//	console.log(response.statusCode + result);
-                this.sendSocketNotification('CENSUS_RESULT', result);
-				this.getPop();
-            }
-        });
+		var result = {};
+
+		request({ // request male age groups
+			url: url + "&SEX=1",
+			method: 'GET'
+		}, (error, response, body) => {
+			if (!error && response.statusCode == 200) {
+				result["M"] = JSON.parse(body);
+
+				request({ // request female age groups
+					url: url + "&SEX=2",
+					method: 'GET'
+				}, (error, response, body) => {
+					if (!error && response.statusCode == 200) {
+						result["F"] = JSON.parse(body);
+
+						console.log("helper getCensus() called");
+						this.sendSocketNotification('CENSUS_RESULT', result);
+						this.getPop();
+					}
+				});
+			}
+		});
     },
 	
 	
 	getPop: function() {
-     	var self = this;
-	 	request({ 
-    	    url: "http://api.population.io/1.0/GET%20/population/World/today-and-tomorrow/?format=json",
-    	          method: 'GET' 
-    	        }, (error, response, body) => {
-            if (!error && response.statusCode === 200) {
-                        var popresult = JSON.parse(body).total_population;
-					//	console.log(response.statusCode + popresult);
-                        this.sendSocketNotification("POP_RESULTS", popresult);
-            }
-       });
-    },
+		console.log("helper getPop() called");
+		request({
+			url: "https://api.census.gov/data/timeseries/idb/5year?get=NAME,GENC,MPOP,FPOP,E0,GR&YR=" + this.config.popYear,
+			method: 'GET'
+		}, (error, response, body) => {
+			if (!error && response.statusCode === 200) {
+				var apires = JSON.parse(body);
+				var popres = {};
+
+				for (let i = 1; i < apires.length; i++) { // loop through each country data "row"
+					popres[apires[i][0]] = {
+						mpop: Number(apires[i][2]),
+						fpop: Number(apires[i][3]),
+						lfex: Number(apires[i][4]), // average life expectancy
+						grth: Number(apires[i][5]) // projected total growth rate for selected year in %
+					};
+				}
+				this.sendSocketNotification("POP_RESULTS", popres);
+			}
+		});
+	},
 	
 	
 

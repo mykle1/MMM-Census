@@ -37,8 +37,16 @@ Module.register("MMM-Census", {
         requiresVersion: "2.1.0";
 
         //  Set locale.
-        this.url = "http://api.population.io/1.0/population/" + this.config.popYear + "/" + this.config.country + "/?format=json";
-        this.Census = {};
+		if (this.config.country == "World") {
+			var popCountry = "";
+		} else if (this.config.country.length == 2) {
+			var popCountry = "&GENC=" + this.config.country;
+		} else {
+			var popCountry = "&NAME=" + this.config.country;
+		}
+        this.url = "https://api.census.gov/data/timeseries/idb/1year?get=NAME,AGE,POP" + popCountry + "&YR=" + this.config.popYear;
+        this.Census = [];
+        this.Pop = {};
         this.activeItem = 0;
         this.rotateInterval = null;
         this.scheduleUpdate();
@@ -75,7 +83,7 @@ Module.register("MMM-Census", {
                 this.activeItem = 0;
             }
             var Census = this.Census[CensusKeys[this.activeItem]];
-			var Pop = this.Pop; 
+			var Pop = this.Pop;
 	        // console.log(Pop); for checking
 
             var top = document.createElement("div");
@@ -215,6 +223,7 @@ Module.register("MMM-Census", {
     scheduleUpdate: function() {
         setInterval(() => {
             this.getCensus();
+            this.getPop();
         }, this.config.updateInterval);
         this.getCensus(this.config.initialLoadDelay);
     },
@@ -222,6 +231,10 @@ Module.register("MMM-Census", {
     getCensus: function() {
         this.sendSocketNotification('GET_CENSUS', this.url);
     },
+
+	getPop: function() {
+		this.sendSocketNotification('GET_POP', this.url);
+	},
 
     socketNotificationReceived: function(notification, payload) {
         if (notification === "CENSUS_RESULT") {
