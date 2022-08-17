@@ -202,13 +202,52 @@ Module.register("MMM-Census", {
     },
 	
 
-    processCensus: function(data) {
-        this.today = data.Today;
-        this.Census = data;
-        this.loaded = true;
-    },
+	processCensus: function(data) {
+		if (data["M"].length < 110) { // if data of only 1 country was fetched
+			this.Census = {};
+			let cnt = data["M"][1][0];
+			this.Census[cnt] = [];
+			for (let i = 0; i <= 100; i++) {
+				this.Census[cnt][i] = {};
+				this.Census[cnt][i]["M"] = Number(data["M"][i+1][2]);
+				this.Census[cnt][i]["F"] = Number(data["F"][i+1][2]);
+			}
+		} else { // if world data was fetched
+			this.Census = { "World": [] };
+			for (let i = 1; i < data["M"].length; i++) {
+				let name = data["M"][i][0];
+				let age = Number(data["M"][i][1]);
+
+				if (typeof this.Census[name] === "undefined")
+					this.Census[name] = [];
+				this.Census[name][age] = { "M": Number(data["M"][i][2]), "F": Number(data["F"][i][2]) };
+
+				// Add to World total
+				if (typeof this.Census["World"][age] === "undefined")
+					this.Census["World"][age] = { "M": 0, "F": 0 };
+				this.Census["World"][age]["M"] += this.Census[name][age]["M"];
+				this.Census["World"][age]["F"] += this.Census[name][age]["F"];
+			}
+		}
+
+		this.loaded = true;
+	},
 	
 	processPop: function(data) {
+		console.log("processPop called");
+		let world = { mpop: 0, fpop: 0, tpop: 0, tmrw: 0 };
+
+		for (let i in data) {
+			data[i]["tpop"] = data[i]["mpop"] + data[i]["fpop"]; // calculate total population of country
+			data[i]["tmrw"] = Math.round(data[i]["tpop"] + ((data[i]["tpop"] * data[i]["grth"] / 100) / 365)); // calculate tomorrow's population using the average yearly growth rate
+
+			// add country values to world total
+			for (let j in world) {
+				world[j] += data[i][j];
+			}
+		}
+
+		data["World"] = world;
         this.Pop = data;
     },
 
