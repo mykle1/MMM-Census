@@ -76,14 +76,14 @@ Module.register("MMM-Census", {
 		
 		
 		//	Rotating my data
-		var Census = this.Census;
-		var CensusKeys = Object.keys(this.Census);
+		var Census = this.Census[this.config.country];
+		var Pop = this.Pop;
+		var CensusKeys = Object.keys(Census);
         if (CensusKeys.length > 0) {
             if (this.activeItem >= CensusKeys.length) {
                 this.activeItem = 0;
             }
-            var Census = this.Census[CensusKeys[this.activeItem]];
-			var Pop = this.Pop;
+			//document.write(JSON.stringify(Census).replace(/},/g, "},<br>"));
 	        // console.log(Pop); for checking
 
             var top = document.createElement("div");
@@ -93,16 +93,20 @@ Module.register("MMM-Census", {
 		    // age
 		    var age = document.createElement("div");
             age.classList.add("small", "bright", "age");
-			if (Census.age == 0){
-				age.innerHTML = this.config.country + " in " + this.config.popYear + " &nbsp < 1 year old";
-				wrapper.appendChild(age);
-			} else if (Census.age == 1) {
-				age.innerHTML = this.config.country + " in " + this.config.popYear + " ~ " + Census.age + " year olds";
-				wrapper.appendChild(age);
+
+			// fix country names
+			let country = this.config.country.replace(/, the/i, "");
+			if (country.length > 26)
+				country = country.split(",")[0];
+
+			if (this.activeItem == 0) {
+				age.innerHTML = country + " in " + this.config.popYear + " &nbsp < 1 year olds";
+			} else if (this.activeItem == 1) {
+				age.innerHTML = country + " in " + this.config.popYear + " ~ " + this.activeItem + " year olds";
 			} else {
-				age.innerHTML = this.config.country + " in " + this.config.popYear + " ~ " + Census.age + " year olds";
-				wrapper.appendChild(age);
+				age.innerHTML = country + " in " + this.config.popYear + " ~ " + this.activeItem + " year olds";
 			}
+			wrapper.appendChild(age);
 		
 		
 			// spacer
@@ -115,21 +119,21 @@ Module.register("MMM-Census", {
 			// females
 			var females = document.createElement("div");
 			females.classList.add("small", "bright", "females");
-			females.innerHTML = (Math.round(Census.females) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,') + " females";
+			females.innerHTML = Census[this.activeItem]["F"].toLocaleString() + " females";
 			wrapper.appendChild(females);
 			
 			
 			// males
 			var males = document.createElement("div");
 			males.classList.add("small", "bright", "males");
-			males.innerHTML = (Math.round(Census.males) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,') + " males";
+			males.innerHTML = Census[this.activeItem]["M"].toLocaleString() + " males";
 			wrapper.appendChild(males);
 			
 			
 			// age group total = agtotal
 			var agtotal = document.createElement("div");
 			agtotal.classList.add("small", "bright", "agtotal");
-			agtotal.innerHTML = "Age total = " + (Math.round(Census.total) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+			agtotal.innerHTML = (Census[this.activeItem]["M"] + Census[this.activeItem]["F"]).toLocaleString() + " total";
 			wrapper.appendChild(agtotal);
 			
 			
@@ -155,7 +159,7 @@ Module.register("MMM-Census", {
 		// Entire population today
 		var popToday = document.createElement("div");
 		popToday.classList.add("small", "bright", "popToday");
-		popToday.innerHTML = (Math.round(Pop[0].population) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+		popToday.innerHTML = Pop["World"]["tpop"].toLocaleString();
 		wrapper.appendChild(popToday);
 
 
@@ -170,7 +174,7 @@ Module.register("MMM-Census", {
 		// Entire population tomorrow
 		var popTomorrow = document.createElement("div");
 		popTomorrow.classList.add("small", "bright", "popTomorrow");
-		popTomorrow.innerHTML = (Math.round(Pop[1].population) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+		popTomorrow.innerHTML = Pop["World"]["tmrw"].toLocaleString();
 		wrapper.appendChild(popTomorrow);
 		
 		// spacer
@@ -183,7 +187,7 @@ Module.register("MMM-Census", {
 		// Population growth
 		var growth = document.createElement("div");
 		growth.classList.add("small", "bright", "growth");
-		growth.innerHTML = "Population growth = " + (Math.round(Pop[1].population - Pop[0].population) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+		growth.innerHTML = "Population growth = " + (Pop["World"]["tmrw"] - Pop["World"]["tpop"]).toLocaleString();
 		wrapper.appendChild(growth);
 
         return wrapper;
