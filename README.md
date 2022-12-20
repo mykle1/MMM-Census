@@ -1,291 +1,273 @@
-# ATTENTION! API IS NO LONGER PUBLIC. WAITING TO HEAR FROM THEM
+# MMM-Census
 
+A module for your [Magic Mirror](https://magicmirror.builders/) that will display World Population and demographic data, accounting for age and sex.
 
-## MMM-Census
+## Features
 
-* World Population and demographic by age and sex.
+* Rotates through 1 year age groups (0-100 years old) and displays the respective male and female populations.
+* Shows male and female population numbers for each age group, along with their combined total years of age.
+* Displays Today's and Tomorrow's World Population sizes and relative growth.
 
-## How it works
+### Customization
 
-* Rotation of age groups from less than one year old through 100 years old.
-* Male and female populations for each age group and their totals.
-* Today's World Population.
-* Tomorrow's World Population.
-* World Population growth each day.
+* You can choose to display data for any single country instead of the whole world.
+* Choose any year from 1950 - 2100 to display past and present data, or future predictions.
+* Fully annotated css file so you can customize the design to your liking.
 
-## OR
+![](pix/1.JPG) ![](pix/2.JPG) ![](pix/3.JPG)
 
-* Choose an individual country instead of the world. See county list at bottom.
-
-## OR OR
-
-* Choose a year from 1950 - 2100 for past and present data or future predictions.
-
-## Example
-
-* Fully annotated css file so you can fully customize to your liking
-
-![](pix/1.JPG), ![](pix/2.JPG), ![](pix/3.JPG)
-
-## Installation
+## Installation and Setup
 
 * `git clone https://github.com/mykle1/MMM-Census` into the `~/MagicMirror/modules` directory.
 
-* No API key needed! No Dependencies! No kidding!
+* Add the following text to the `modules: [` section in `~/MagicMirror/config/config.js` to enable the Census module, then tweak the `config: {` settings as desired:
 
-## Config.js entry and options
-
-    {
-        module: 'MMM-Census',
-        position: 'top_left',              // Best in left, right or center regions
-        config: {
-		country: "World",              // See country list, bottom of README file
-		popYear: "2017",               // 1950 - 2100
-		useHeader: true,
-		header: "World Population & Demographic",
-		maxWidth: "300px",
-		animationSpeed: 3000,
-		rotateInterval: 1 * 60 * 1000,
-        }
-    },
+```js
+{
+	module: 'MMM-Census',
+	position: 'top_left',			// Best in left, right or center regions
+	config: {
+	country: "World",			// See country list below
+	popYear: "2017",			// 1950 - 2100
+	useHeader: true,			// false if you don't want a header   
+	header: "World Population & Demographic",	// Header text
+	maxWidth: "300px",
+	animationSpeed: 3000,
+	rotateInterval: 5 * 60 * 1000,		// 5 minutes by default
+	}
+},
+```
 
 ## Special thanks and gratitude to SpaceCowboysDude
 
 ## Countries to choose from
 
-    "Afghanistan",
-    "AFRICA",
-    "Albania",
-    "Algeria",
-    "Angola",
-    "Antigua and Barbuda",
-    "Arab Rep of Egypt",
-    "Argentina",
-    "Armenia",
-    "Aruba",
-    "ASIA",
-    "Australia",
-    "Australia/New Zealand",
-    "Austria",
-    "Azerbaijan",
-    "The Bahamas",
-    "Bahrain",
-    "Bangladesh",
-    "Barbados",
-    "Belarus",
-    "Belgium",
-    "Belize",
-    "Benin",
-    "Bhutan",
-    "Bolivia",
-    "Bosnia and Herzegovina",
-    "Botswana",
-    "Brazil",
-    "Brunei Darussalam",
-    "Bulgaria",
-    "Burkina Faso",
-    "Burundi",
-    "Cote-d-Ivoire",
-    "Cabo Verde",
-    "Cambodia",
-    "Cameroon",
-    "Canada",
-    "Caribbean",
-    "Central African Republic",
-    "Central America",
-    "Central Asia",
-    "Chad",
-    "Channel Islands",
-    "Chile",
-    "China",
-    "Hong Kong SAR-China",
-    "Macao SAR China",
-    "Colombia",
-    "Comoros",
-    "Congo",
-    "Costa Rica",
-    "Croatia",
-    "Cuba",
-    "Curacao",
-    "Cyprus",
-    "Czech Republic",
-    "Dem Peoples Rep of Korea",
-    "Dem Rep of Congo",
-    "Denmark",
-    "Djibouti",
-    "Dominican Republic",
-    "Eastern Africa",
-    "Eastern Asia",
-    "Eastern Europe",
-    "Ecuador",
-    "El Salvador",
-    "Equatorial Guinea",
-    "Eritrea",
-    "Estonia",
-    "Ethiopia",
-    "EUROPE",
-    "Federated States of Micronesia",
-    "Fiji",
-    "Finland",
-    "France",
-    "French Guiana",
-    "French Polynesia",
-    "FYR Macedonia",
-    "Gabon",
-    "The Gambia",
-    "Georgia",
-    "Germany",
-    "Ghana",
-    "Greece",
-    "Grenada",
-    "Guadeloupe",
-    "Guam",
-    "Guatemala",
-    "Guinea",
-    "Guinea-Bissau",
-    "Guyana",
-    "Haiti",
-    "Honduras",
-    "Hungary",
-    "Iceland",
-    "India",
-    "Indonesia",
-    "Islamic Republic of Iran",
-    "Iraq",
-    "Ireland",
-    "Israel",
-    "Italy",
-    "Jamaica",
-    "Japan",
-    "Jordan",
-    "Kazakhstan",
-    "Kenya",
-    "Kiribati",
-    "Kuwait",
-    "Kyrgyz Republic",
-    "Lao PDR",
-    "LATIN AMERICA AND THE CARIBBEAN",
-    "Latvia",
-    "Least developed countries",
-    "Lebanon",
-    "Lesotho",
-    "Less developed regions",
-    "Less developed regions, excluding China",
-    "Less developed regions, excluding least developed countries",
-    "Liberia",
-    "Libya",
-    "Lithuania",
-    "Luxembourg",
-    "Madagascar",
-    "Malawi",
-    "Malaysia",
-    "Maldives",
-    "Mali",
-    "Malta",
-    "Martinique",
-    "Mauritania",
-    "Mauritius",
-    "Mayotte",
-    "Melanesia",
-    "Mexico",
-    "Micronesia",
-    "Middle Africa",
-    "Moldova",
-    "Mongolia",
-    "Montenegro",
-    "More developed regions",
-    "Morocco",
-    "Mozambique",
-    "Myanmar",
-    "Namibia",
-    "Nepal",
-    "The Netherlands",
-    "New Caledonia",
-    "New Zealand",
-    "Nicaragua",
-    "Niger",
-    "Nigeria",
-    "Northern Africa",
-    "NORTHERN AMERICA",
-    "Northern Europe",
-    "Norway",
-    "OCEANIA",
-    "Oman",
-    "Other non-specified areas",
-    "Pakistan",
-    "Panama",
-    "Papua New Guinea",
-    "Paraguay",
-    "Peru",
-    "Philippines",
-    "Poland",
-    "Polynesia",
-    "Portugal",
-    "Puerto Rico",
-    "Qatar",
-    "Reunion",
-    "RB-de-Venezuela",
-    "Rep of Korea",
-    "Rep of Yemen",
-    "Romania",
-    "Russian Federation",
-    "Rwanda",
-    "St-Lucia",
-    "St-Vincent and the Grenadines",
-    "Samoa",
-    "Sao Tome and Principe",
-    "Saudi Arabia",
-    "Senegal",
-    "Serbia",
-    "Seychelles",
-    "Sierra Leone",
-    "Singapore",
-    "Slovak Republic",
-    "Slovenia",
-    "Solomon Islands",
-    "Somalia",
-    "South Africa",
-    "South America",
-    "South Sudan",
-    "South-Central Asia",
-    "South-Eastern Asia",
-    "Southern Africa",
-    "Southern Asia",
-    "Southern Europe",
-    "Spain",
-    "Sri Lanka",
-    "West Bank and Gaza",
-    "Sub-Saharan Africa",
-    "Sudan",
-    "Suriname",
-    "Swaziland",
-    "Sweden",
-    "Switzerland",
-    "Syrian Arab Rep",
-    "Tajikistan",
-    "Tanzania",
-    "Thailand",
-    "Timor-Leste",
-    "Togo",
-    "Tonga",
-    "Trinidad and Tobago",
-    "Tunisia",
-    "Turkey",
-    "Turkmenistan",
-    "Uganda",
-    "Ukraine",
-    "United Arab Emirates",
-    "United Kingdom",
-    "United States",
-    "US Virgin Islands",
-    "Uruguay",
-    "Uzbekistan",
-    "Vanuatu",
-    "Vietnam",
-    "Western Africa",
-    "Western Asia",
-    "Western Europe",
-    "Western Sahara",
-    "World",
-    "Zambia",
-    "Zimbabwe"
+```
+"Afghanistan"
+"Albania"
+"Algeria"
+"American Samoa"
+"Andorra"
+"Angola"
+"Anguilla"
+"Antigua and Barbuda"
+"Argentina"
+"Armenia"
+"Aruba"
+"Australia"
+"Austria"
+"Azerbaijan"
+"Bahamas, The"
+"Bahrain"
+"Bangladesh"
+"Barbados"
+"Belarus"
+"Belgium"
+"Belize"
+"Benin"
+"Bermuda"
+"Bhutan"
+"Bolivia"
+"Bosnia and Herzegovina"
+"Botswana"
+"Brazil"
+"Brunei"
+"Bulgaria"
+"Burkina Faso"
+"Burma"
+"Burundi"
+"Cabo Verde"
+"Cambodia"
+"Cameroon"
+"Canada"
+"Cayman Islands"
+"Central African Republic"
+"Chad"
+"Chile"
+"China"
+"Colombia"
+"Comoros"
+"Congo (Brazzaville)"
+"Congo (Kinshasa)"
+"Cook Islands"
+"Costa Rica"
+"Côte d’Ivoire"
+"Croatia"
+"Cuba"
+"Curaçao"
+"Cyprus"
+"Czechia"
+"Denmark"
+"Djibouti"
+"Dominica"
+"Dominican Republic"
+"Ecuador"
+"Egypt"
+"El Salvador"
+"Equatorial Guinea"
+"Eritrea"
+"Estonia"
+"Eswatini"
+"Ethiopia"
+"Faroe Islands"
+"Fiji"
+"Finland"
+"France"
+"French Polynesia"
+"Gabon"
+"Gambia, The"
+"Gaza Strip"
+"Georgia"
+"Germany"
+"Ghana"
+"Gibraltar"
+"Greece"
+"Greenland"
+"Grenada"
+"Guam"
+"Guatemala"
+"Guernsey"
+"Guinea"
+"Guinea-Bissau"
+"Guyana"
+"Haiti"
+"Honduras"
+"Hong Kong"
+"Hungary"
+"Iceland"
+"India"
+"Indonesia"
+"Iran"
+"Iraq"
+"Ireland"
+"Isle of Man"
+"Israel"
+"Italy"
+"Jamaica"
+"Japan"
+"Jersey"
+"Jordan"
+"Kazakhstan"
+"Kenya"
+"Kiribati"
+"Korea, North"
+"Korea, South"
+"Kosovo"
+"Kuwait"
+"Kyrgyzstan"
+"Laos"
+"Latvia"
+"Lebanon"
+"Lesotho"
+"Liberia"
+"Libya"
+"Liechtenstein"
+"Lithuania"
+"Luxembourg"
+"Macau"
+"Madagascar"
+"Malawi"
+"Malaysia"
+"Maldives"
+"Mali"
+"Malta"
+"Marshall Islands"
+"Mauritania"
+"Mauritius"
+"Mexico"
+"Micronesia, Federated States of"
+"Moldova"
+"Monaco"
+"Mongolia"
+"Montenegro"
+"Montserrat"
+"Morocco"
+"Mozambique"
+"Namibia"
+"Nauru"
+"Nepal"
+"Netherlands"
+"New Caledonia"
+"New Zealand"
+"Nicaragua"
+"Niger"
+"Nigeria"
+"North Macedonia"
+"Northern Mariana Islands"
+"Norway"
+"Oman"
+"Pakistan"
+"Palau"
+"Panama"
+"Papua New Guinea"
+"Paraguay"
+"Peru"
+"Philippines"
+"Poland"
+"Portugal"
+"Puerto Rico"
+"Qatar"
+"Romania"
+"Russia"
+"Rwanda"
+"Saint Barthelemy"
+"Saint Helena, Ascension, and Tristan da Cunha"
+"Saint Kitts and Nevis"
+"Saint Lucia"
+"Saint Martin"
+"Saint Pierre and Miquelon"
+"Saint Vincent and the Grenadines"
+"Samoa"
+"San Marino"
+"Sao Tome and Principe"
+"Saudi Arabia"
+"Senegal"
+"Serbia"
+"Seychelles"
+"Sierra Leone"
+"Singapore"
+"Sint Maarten"
+"Slovakia"
+"Slovenia"
+"Solomon Islands"
+"Somalia"
+"South Africa"
+"South Sudan"
+"Spain"
+"Sri Lanka"
+"Sudan"
+"Suriname"
+"Sweden"
+"Switzerland"
+"Syria"
+"Taiwan"
+"Tajikistan"
+"Tanzania"
+"Thailand"
+"Timor-Leste"
+"Togo"
+"Tonga"
+"Trinidad and Tobago"
+"Tunisia"
+"Turkey"
+"Turkmenistan"
+"Turks and Caicos Islands"
+"Tuvalu"
+"Uganda"
+"Ukraine"
+"United Arab Emirates"
+"United Kingdom"
+"United States"
+"Uruguay"
+"Uzbekistan"
+"Vanuatu"
+"Venezuela"
+"Vietnam"
+"Virgin Islands, British"
+"Virgin Islands, U.S."
+"Wallis and Futuna"
+"West Bank"
+"Yemen"
+"Zambia"
+"Zimbabwe"
+```

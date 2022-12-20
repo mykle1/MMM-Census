@@ -11,7 +11,7 @@
 }
  
 .MMM-Census .age {
-  color: #white;                     /* Color the information text. Default is white. */
+  color: white;                      /* Color the information text. Default is white. */
   text-align: center;                /* Align the information text. (left, center, right) */
   /*  display: none; */              /* Uncomment if you don't want information text */
 }
